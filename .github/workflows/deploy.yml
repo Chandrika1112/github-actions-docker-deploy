@@ -14,10 +14,24 @@ jobs:
       - name: Checkout source code
         uses: actions/checkout@v3
 
-      # Step 2: Log in to Docker Hub
+      # Step 2: Login to Docker Hub
       - name: Login to Docker Hub
         uses: docker/login-action@v2
         with:
           username: chandrika2002
-          password: ${{ secrets.DOCKER_PASS_
+          password: ${{ secrets.DOCKER_PASSWORD }}
 
+      # Step 3: Build Docker image
+      - name: Build Docker Image
+        run: docker build -t chandrika2002/github-actions-demo:latest .
+
+      # Step 4: Push Docker image to Docker Hub
+      - name: Push Docker Image
+        run: docker push chandrika2002/github-actions-demo:latest
+
+      # Step 5: Deploy to Ubuntu EC2 via SSH
+      - name: Deploy to Ubuntu EC2
+        uses: appleboy/ssh-action@v1.0.0
+        with:
+          host: ${{ secrets.EC2_IP }}
+          usern
