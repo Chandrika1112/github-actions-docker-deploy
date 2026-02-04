@@ -34,4 +34,15 @@ jobs:
         uses: appleboy/ssh-action@v1.0.0
         with:
           host: ${{ secrets.EC2_IP }}
-          usern
+          username: ubuntu
+          key: ${{ secrets.EC2_SSH_KEY }}
+          script: |
+            # Pull the latest Docker image
+            docker pull chandrika2002/github-actions-demo:latest
+
+            # Stop and remove existing container if it exists
+            docker stop web || true
+            docker rm web || true
+
+            # Run the container in detached mode, exposing port 80
+            docker run -d -p 80:80 --name web chandrika2002/github-actions-demo:latest
