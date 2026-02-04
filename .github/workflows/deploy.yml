@@ -20,10 +20,10 @@ jobs:
           password: ${{ secrets.DOCKER_PASSWORD }}
 
       - name: Build Docker Image
-        run: docker build -t chandrika1112/github-actions-demo .
+        run: docker build -t chandrika2002/github-actions-demo:latest .
 
       - name: Push Docker Image to Docker Hub
-        run: docker push chandrika1112/github-actions-demo
+        run: docker push chandrika2002/github-actions-demo:latest
 
       - name: Deploy to AWS EC2
         uses: appleboy/ssh-action@v1.0.0
@@ -32,7 +32,12 @@ jobs:
           username: ec2-user
           key: ${{ secrets.EC2_SSH_KEY }}
           script: |
-            docker pull chandrika1112/github-actions-demo
+            # Pull the latest Docker image
+            docker pull chandrika2002/github-actions-demo:latest
+            
+            # Stop and remove existing container if it exists
             docker stop web || true
             docker rm web || true
-            docker run -d -p 80:80 --name web chandrika1112/github-actions-demo
+            
+            # Run the container in detached mode, exposing port 80
+            docker run -d -p 80:80 --name web chandrika2002/github-actions-demo:latest
