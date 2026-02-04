@@ -35,4 +35,4 @@ jobs:
             docker pull chandrika1112/github-actions-demo
             docker stop web || true
             docker rm web || true
-            docker run -d -p 80:80 --name web chandrika1112/github-actions-demo
+            docker run -d -p 80:80 --name web chandrika1112/github-actions-demo 
