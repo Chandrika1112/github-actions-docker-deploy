@@ -5,3 +5,4 @@ services:
     image: chandrika1112/github-actions-demo
     ports:
       - "80:80"
+
